@@ -1,7 +1,7 @@
 # Update Guide
 
 :::tip Note
-Updates are unconditionally enabled and the Imunify360 service starts during the package update.
+Updates are enabled by default and the Imunify360 service starts during the package update. To turn scheduled updates off, see [Disabling automatic updates](#disabling-automatic-updates).
 :::
 
 ## Gradual roll-out
@@ -139,6 +139,30 @@ Debian 9 (supported up to Imunify v6.11 (including)), 10, and 11 systems:
 apt-get update
 apt-get install --only-upgrade imunify360-firewall
 ```
+
+## Disabling automatic updates
+
+Starting from Imunify360 v8.14.0 and ImunifyAV v8.8.6, you can disable the scheduled daily update of Imunify packages — for example, when you roll out package updates yourself with your own tooling:
+
+<div class="notranslate">
+
+```
+touch /var/imunify360/stop-update
+```
+</div>
+
+While this file exists, the daily cron job skips the Imunify package update. Remove the file to re-enable automatic updates:
+
+<div class="notranslate">
+
+```
+rm -f /var/imunify360/stop-update
+```
+</div>
+
+:::warning Note
+The flag affects only the scheduled update of Imunify packages. Malware signatures and firewall rules continue to update automatically, and manual updates — including the force-update script above and fresh installations — work regardless of the flag. With automatic updates disabled, update the Imunify packages regularly on your own schedule to keep the protection current.
+:::
 
 ## Host OS upgrade
 
